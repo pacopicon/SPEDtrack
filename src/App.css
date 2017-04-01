@@ -22,3 +22,16 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.testDashboard {
+  margin-left: 2em;
+}
+
+.testDashboard p {
+  color: pink;
+  font-size: 2em;
+}
+
+.student {
+  margin-left: 2em;
+}
