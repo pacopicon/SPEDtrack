@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import createFragment from 'react-addons-create-fragment' // ES6
 import './App.css';
+// import createFragment from 'react-addons-create-fragment' // ES6
 
 class TestTrack extends React.Component {
-  constructor() {
-    super();
-    this.student = {
-      id: "bob",
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: '',
       extendRate: 0,
       firstStartTime: 0,
       firstStandTime: 0,
@@ -15,40 +15,52 @@ class TestTrack extends React.Component {
       secondStartTime: 0,
       secondStandTime: 0,
       secondStandEndTime: 0,
-      secondExtendEndTime: 0
-    }
-    this.state = {
-      students: Array(5).fill(this.student)
-    };
-  }
-  render() {
-    const classroom = this.state.students;
-    const students = classroom.slice();
+      secondExtendEndTime: 0,
 
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({name: event.target.value});
+  }
+
+  handleSubmit(event) {
+    // alert('A student was submitted: ' + this.state.name);
+
+    event.preventDefault();
+  }
+
+  render() {
     return (
-      <div className="testDashboard">
-        <p>students: </p>
-        <Classroom
-            students={students}
-        />
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            Name:
+            <input type="text" value={this.state.name} onChange={this.handleChange} />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
+        <div className="testDashboard">
+          <p>students: </p>
+          <Classroom student={this.state.name}/>
+        </div>
       </div>
     );
   }
 }
 
 class Classroom extends React.Component {
-  renderStudent(i) {
-    return <Student value={this.props.students[i]}/>;
+  renderStudent() {
+    return <Student value={this.props.student} num={1}/>;
   }
   render() {
     return(
       <div>
         <div className="student-row">
-          {this.renderStudent(0)}
-          {this.renderStudent(1)}
-          {this.renderStudent(2)}
-          {this.renderStudent(3)}
-          {this.renderStudent(4)}
+          {this.renderStudent()}
         </div>
       </div>
     );
@@ -57,9 +69,9 @@ class Classroom extends React.Component {
 
 function Student(props) {
   return (
-    <div className="student">
+    <li key={props.num} className="student">
       {props.value}
-    </div>
+    </li>
   );
 }
 
